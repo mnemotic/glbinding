@@ -134,8 +134,14 @@ if("${CMAKE_INSTALL_PREFIX}" STREQUAL "/usr" OR "${CMAKE_INSTALL_PREFIX}" STREQU
     set(SYSTEM_DIR_INSTALL TRUE)
 endif()
 
+if(MINGW)
+    if("${CMAKE_INSTALL_PREFIX}" MATCHES ".*\\/usr(\\/local)?$")
+        set(SYSTEM_DIR_INSTALL TRUE)
+    endif()
+endif()
+
 # Installation paths
-if(UNIX AND SYSTEM_DIR_INSTALL)
+if((UNIX OR MINGW) AND SYSTEM_DIR_INSTALL)
     # Install into the system (/usr/bin or /usr/local/bin)
     set(INSTALL_ROOT      "share/${project}")       # /usr/[local]/share/<project>
     set(INSTALL_CMAKE     "share/${project}/cmake") # /usr/[local]/share/<project>/cmake
